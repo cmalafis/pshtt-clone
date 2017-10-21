@@ -901,14 +901,26 @@ def is_hsts_preload_pending(domain):
     """
     Whether a domain is formally pending inclusion
     in Chrome's HSTS preload list.
+
+    If preload_pending is None, return a value of None, signaling the status as
+    "unknown".
     """
+    if preload_pending is None:
+        return None
+
     return domain.domain in preload_pending
 
 
 def is_hsts_preloaded(domain):
     """
     Whether a domain is contained in Chrome's HSTS preload list.
+
+    If preload_list is None, return a value of None, signaling the status as
+    "unknown".
     """
+    if preload_list is None:
+        return None
+
     return domain.domain in preload_list
 
 
@@ -922,7 +934,12 @@ def is_parent_hsts_preloaded(domain):
 def parent_domain_for(hostname):
     """
     For "x.y.domain.gov", return "domain.gov".
+
+    If there is no suffix_list available, simply return the hostname
     """
+    if suffix_list is None:
+        return hostname
+
     return suffix_list.get_public_suffix(hostname)
 
 
