@@ -906,7 +906,7 @@ def is_hsts_preload_pending(domain):
     "unknown".
     """
     if preload_pending is None:
-        return None
+        initialize_caches()
 
     return domain.domain in preload_pending
 
@@ -919,7 +919,7 @@ def is_hsts_preloaded(domain):
     "unknown".
     """
     if preload_list is None:
-        return None
+        initialize_caches()
 
     return domain.domain in preload_list
 
@@ -938,7 +938,7 @@ def parent_domain_for(hostname):
     If there is no suffix_list available, simply return the hostname
     """
     if suffix_list is None:
-        return hostname
+        initialize_caches()
 
     return suffix_list.get_public_suffix(hostname)
 
@@ -1136,16 +1136,7 @@ def inspect_domains(domains, options):
         # "Custom" Option from the sslyze output.
         STORE = "Custom"
 
-    # Download HSTS preload list, caches locally.
-    global preload_list
-    preload_list = create_preload_list()
-
-    # Download HSTS pending preload list. Not cached.
-    global preload_pending
-    preload_pending = fetch_preload_pending()
-
-    global suffix_list
-    suffix_list = load_suffix_list()
+    initialize_caches()
 
     # For every given domain, get inspect data.
     for domain in domains:
