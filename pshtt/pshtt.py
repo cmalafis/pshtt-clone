@@ -1105,6 +1105,19 @@ def load_suffix_list():
     return suffixes
 
 
+def initialize_caches():
+    # Download HSTS preload list, caches locally.
+    global preload_list
+    preload_list = create_preload_list()
+
+    # Download HSTS pending preload list. Not cached.
+    global preload_pending
+    preload_pending = fetch_preload_pending()
+
+    global suffix_list
+    suffix_list = load_suffix_list()
+
+
 def inspect_domains(domains, options):
     # Override timeout, user agent, preload cache, default CA bundle
     global TIMEOUT, USER_AGENT, PRELOAD_CACHE, WEB_CACHE, SUFFIX_CACHE, CA_FILE, STORE
