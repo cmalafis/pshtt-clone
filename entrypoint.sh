@@ -27,13 +27,13 @@ else
 fi
 
 # Copy the inputs
-cp /data/*.csv /usr/src/app
-cp /data/*.pem /usr/src/app
+#cp /data/*.csv /usr/src/app
+#cp /data/*.pem /usr/src/app
 
 python -m pshtt.cli "$@"
 
 # Copy the results back to the mount point and change the ownership so the host
 # gets it and can read it
-cp /usr/src/app/*.csv /data/
+#cp /usr/src/app/*.csv /data/
 
-chown -R "${uid}:${gid}" /data/
+#chown -R "${uid}:${gid}" /data/
